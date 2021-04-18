@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +15,8 @@ public class DemoController {
     private final BulkService bulkService;
 
     private int index = 0;
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     private final List<String> DUMMY_ENDPOINTS = Arrays.asList("/login", "/logout", "/payment");
     private final List<String> DUMMY_TRANSACTION_IDS = Arrays.asList("I10A", "I20B", "I30C");
@@ -37,7 +40,7 @@ public class DemoController {
                 .endpoint(endpoint)
                 .transactionId(transactionId)
                 .count(1)
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now().format(DATE_TIME_FORMATTER))
                 .build();
 
         bulkService.add(model);
